@@ -1,0 +1,3 @@
+External dependencies:
+- exuberant-ctags
+- jsctags (https://github.com/mozilla/doctorjs)

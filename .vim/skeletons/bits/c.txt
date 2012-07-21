@@ -1,0 +1,8 @@
+inc= #include <<+CURSOR+>.h>
+inl= #include "<+CURSOR+>.h"
+ind= #ifndef <+CURSOR+>
+def= #define <+CURSOR+>
+ifd= #ifdef <+CURSOR+>
+els= #else <+CURSOR+>
+end= #endif
+pra= #pragma <+CURSOR+>
