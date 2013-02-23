@@ -40,6 +40,13 @@ let g:tskelDontSetup = 1
 let g:tskelUserName = 'David Trowbridge'
 let g:tskelUserEmail = 'davidt@vmware.com'
 
+" Syntastic configuration
+let g:syntastic_check_on_open = 1
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'active_filetypes': ['python'],
+			   \ 'passive_filetypes': [] }
+
 " Highlight trailing whitespace
 autocmd BufNewFile,BufReadPost,WinEnter * highlight WhitespaceEOL ctermbg=red guibg=red
 autocmd BufNewFile,BufReadPost,WinEnter * match WhitespaceEOL /\s\+$/
