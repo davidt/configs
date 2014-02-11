@@ -20,7 +20,7 @@ filetype plugin indent on
 " Basic formatting
 set shiftwidth=8
 set smartindent
-set textwidth=80
+set textwidth=79
 set nojoinspaces
 
 " Hotkeys and settings for tabs
@@ -34,6 +34,9 @@ nnoremap <silent> <F3> :AV <CR>
 
 " NERD commenter config
 let g:NERDShutUp = 1
+
+" taglist-plus config
+let g:Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
 
 " tSkeleton config
 let g:tskelDontSetup = 1
