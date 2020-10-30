@@ -16,6 +16,12 @@
 [submodule ".vim/bundle/taglist-plus"]
 	path = .vim/bundle/taglist-plus
 	url = git://github.com/int3/vim-taglist-plus.git
-[submodule ".vim/bundle/syntastic"]
-	path = .vim/bundle/syntastic
-	url = git://github.com/scrooloose/syntastic.git
+[submodule ".vim/bundle/vim-polyglot"]
+	path = .vim/bundle/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot
+[submodule ".vim/bundle/ack.vim"]
+	path = .vim/bundle/ack.vim
+	url = https://github.com/mileszs/ack.vim.git
+[submodule ".vim/bundle/vim-es7"]
+	path = .vim/bundle/vim-es7
+	url = https://github.com/kern/vim-es7

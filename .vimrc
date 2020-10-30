@@ -49,7 +49,20 @@ let g:syntastic_enable_highlighting = 1
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': ['python'],
 			   \ 'passive_filetypes': [] }
+let g:syntastic_javascript_checkers = ['eslint']
+
+let g:ale_linters = {
+	\ 'jsx': ['eslint']
+	\ }
 
 " Highlight trailing whitespace
 autocmd BufNewFile,BufReadPost,WinEnter * highlight WhitespaceEOL ctermbg=red guibg=red
 autocmd BufNewFile,BufReadPost,WinEnter * match WhitespaceEOL /\s\+$/
+
+" Use ag if available
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" Don't auto-jump to the first result
+cnoreabbrev Ack Ack!

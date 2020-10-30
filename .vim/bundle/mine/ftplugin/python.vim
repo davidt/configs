@@ -3,6 +3,8 @@ set tabstop=8
 set expandtab
 set sta
 
+syntax sync minlines=500
+
 
 function! InsertComment(file, backlines)
     execute "normal I#\<ESC>"
