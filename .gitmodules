@@ -25,3 +25,6 @@
 [submodule ".vim/bundle/vim-es7"]
 	path = .vim/bundle/vim-es7
 	url = https://github.com/kern/vim-es7
+[submodule ".vim/bundle/ale"]
+	path = .vim/bundle/ale
+	url = https://github.com/dense-analysis/ale.git

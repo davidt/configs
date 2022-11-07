@@ -32,6 +32,10 @@ map <C-P> <ESC>:tabprev <CR>
 nnoremap <silent> <F2> :TlistToggle <CR>
 nnoremap <silent> <F3> :AV <CR>
 
+" Hotkeys for ALE
+nmap <silent> <leader>aj :ALENext<cr>
+nmap <silent> <leader>ak :ALEPrevious<cr>
+
 " NERD commenter config
 let g:NERDShutUp = 1
 
