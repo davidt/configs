@@ -1,30 +1,12 @@
-[submodule ".vim/bundle/a.vim"]
-	path = .vim/bundle/a.vim
-	url = git://github.com/vim-scripts/a.vim.git
 [submodule ".vim/bundle/nerdcommenter"]
 	path = .vim/bundle/nerdcommenter
-	url = git://github.com/scrooloose/nerdcommenter.git
-[submodule ".vim/bundle/tlib"]
-	path = .vim/bundle/tlib
-	url = git://github.com/tomtom/tlib_vim.git
-[submodule ".vim/bundle/tskeleton"]
-	path = .vim/bundle/tskeleton
-	url = git://github.com/tomtom/tskeleton_vim.git
-[submodule ".vim/bundle/golang"]
-	path = .vim/bundle/golang
-	url = git://github.com/jnwhiteh/vim-golang.git
-[submodule ".vim/bundle/taglist-plus"]
-	path = .vim/bundle/taglist-plus
-	url = git://github.com/int3/vim-taglist-plus.git
+	url = https://github.com/preservim/nerdcommenter
 [submodule ".vim/bundle/vim-polyglot"]
 	path = .vim/bundle/vim-polyglot
 	url = https://github.com/sheerun/vim-polyglot
 [submodule ".vim/bundle/ack.vim"]
 	path = .vim/bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim.git
-[submodule ".vim/bundle/vim-es7"]
-	path = .vim/bundle/vim-es7
-	url = https://github.com/kern/vim-es7
 [submodule ".vim/bundle/ale"]
 	path = .vim/bundle/ale
 	url = https://github.com/dense-analysis/ale.git
