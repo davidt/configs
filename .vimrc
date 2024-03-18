@@ -1,7 +1,7 @@
 set nocompatible
 
-call pathogen#infect()
-call pathogen#helptags()
+set mouse=a
+let g:ale_set_balloons = 1
 
 " Interface tweaks
 set backspace=indent,eol,start
@@ -10,7 +10,6 @@ set incsearch
 set hlsearch
 set ruler
 set title
-set mouse=a
 set wildmenu
 set smarttab
 runtime macros/matchit.vim
@@ -27,6 +26,9 @@ set nojoinspaces
 set showtabline=2
 map <C-N> <ESC>:tabnext <CR>
 map <C-P> <ESC>:tabprev <CR>
+
+call pathogen#infect()
+call pathogen#helptags()
 
 " Hotkeys for taglist & alternate
 nnoremap <silent> <F2> :TlistToggle <CR>

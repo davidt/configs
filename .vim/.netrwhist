@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/Users/david/src/djblets/release-5.x/djblets/db/fields'
+let g:netrw_dirhist_5='/Users/david/src/reviewboard/release-7.x/reviewboard/webapi/resources'
+let g:netrw_dirhist_4='/Users/david/src/spina/src'
+let g:netrw_dirhist_3='/Users/david/src/reviewboard/release-7.x/reviewboard/site'
+let g:netrw_dirhist_2='/Users/david/src/reviewboard/release-7.x/reviewboard/reviews/ui'
+let g:netrw_dirhist_1='/Users/david/src/reviewboard/release-7.x/reviewboard/diffviewer'
+let g:netrw_dirhist_0='/Users/david/src/reviewboard/release-7.x/reviewboard/reviews/views'
+let g:netrw_dirhist_9='/Users/david/src/reviewboard/release-7.x/reviewboard/diffviewer/models'
+let g:netrw_dirhist_8='/Users/david/src/reviewboard/release-7.x/reviewboard/diffviewer'
+let g:netrw_dirhist_7='/Users/david/src/reviewboard/release-7.x/reviewboard/attachments'

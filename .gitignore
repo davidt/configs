@@ -1,0 +1,3 @@
+.DS_Store
+nvim/lsp
+nvim/lazy-lock.json
