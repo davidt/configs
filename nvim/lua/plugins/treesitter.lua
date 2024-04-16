@@ -1,5 +1,5 @@
 -- Use treesitter for highlighting and indentation instead of regex.
-return {
+local treesitter = {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
   dependencies = {
@@ -24,4 +24,17 @@ return {
       matchup = { enable = true },
     })
   end
+}
+
+
+local treesitter_context = {
+  'nvim-treesitter/nvim-treesitter-context',
+}
+
+
+return {
+  treesitter,
+
+  -- This doesn't seem to be working quite right, at least with Python
+  -- treesitter_context,
 }

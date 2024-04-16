@@ -10,39 +10,29 @@ local lspconfig = {
       lspconfig.util.default_config.capabilities,
       cmp_nvim_lsp.default_capabilities())
 
-    local on_attach = function()
-      if client.server_capabilities.inlayHintProvider then
-        vim.lsp.buf.inlay_hint(bufnr, true)
-      end
-    end
-
     lspconfig.biome.setup({
-      capabilities=capabilities,
-      on_attach=on_attach,
+      capabilities = capabilities,
     })
     lspconfig.cssls.setup({
-      capabilities=capabilities,
-      on_attach=on_attach,
+      capabilities = capabilities,
     })
     lspconfig.eslint.setup({
-      capabilities=capabilities,
-      on_attach=on_attach,
+      capabilities = capabilities,
     })
     lspconfig.html.setup({
-      capabilities=capabilities,
-      on_attach=on_attach,
+      capabilities = capabilities,
     })
     lspconfig.pylsp.setup({
-      capabilities=capabilities,
-      on_attach=on_attach,
+      capabilities = capabilities,
       settings = {
         pylsp = {
+          verbose = true,
           plugins = {
             pycodestyle = {
               enabled = false
             },
             flake8 = {
-              enabled = true
+              enabled = false
             },
             ruff =  {
               enabled = true,
@@ -61,6 +51,7 @@ local lspconfig = {
                 'FA',
                 'LOG',
                 'PIE',
+                'PL',
                 'UP',
               },
               extendIgnore = {
@@ -80,6 +71,7 @@ local lspconfig = {
                 'DJ007', -- Do not use __all__ for ModelForm.Meta.fields
                 'UP007', -- Use X|Y for type annotations - soon?
                 'UP012', -- Unnecessary "utf-8" argument for encode
+                'PLR09', -- Pylint "too many ..."
               },
               severities = {
                 ['ANN'] = 'I',
@@ -87,6 +79,9 @@ local lspconfig = {
                 ['FLY'] = 'I',
                 ['UP'] = 'I',
               },
+            },
+            mypy = {
+              enabled = false,
             },
           }
         }
@@ -97,7 +92,6 @@ local lspconfig = {
     -- things like grey out unused attributes to methods. Unfortunately the pyright
     -- client here takes those hints and actually displays them, which is super
     -- annoying. This blob turns that off while keeping actual warnings and errors.
-    --[[
     local pyright_caps = vim.tbl_deep_extend(
       'force',
       capabilities,
@@ -110,21 +104,20 @@ local lspconfig = {
           }
         }
       })
+    --[[
     lspconfig.pyright.setup {
-      capabilities=pyright_caps,
+      capabilities = pyright_caps,
     }
     ]]--
     lspconfig.basedpyright.setup {
-      capabilities=capabilities,
-      on_attach=on_attach,
+      capabilities = pyright_caps,
     }
 
     lspconfig.tsserver.setup({
-      capabilities=capabilities,
-      on_attach=on_attach,
+      capabilities = capabilities,
       init_options = {
         preferences = {
-          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHints = 'all',
           includeInlayParameterNameHintsWhenArgumentMatchesName = true,
           includeInlayFunctionParameterTypeHints = true,
           includeInlayVariableTypeHints = true,
@@ -137,8 +130,7 @@ local lspconfig = {
     })
     lspconfig.typos_lsp.setup({
       cmd = { '/Users/david/.config/nvim/lsp/bin/typos-lsp' },
-      capabilities=capabilities,
-      on_attach=on_attach,
+      capabilities = capabilities,
     })
 
     vim.diagnostic.config({
@@ -210,7 +202,22 @@ local lspconfig = {
       end
     )
 
-    vim.api.nvim_set_keymap('n', '<leader>v', '<cmd>:vsplit | lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('n', 'gD', '<cmd>:vsplit | lua vim.lsp.buf.declaration()<CR>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('n', 'gh', '<cmd>:vsplit | lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
+
+    vim.api.nvim_create_augroup('LspAttach_inlayhints', {})
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = 'LspAttach_inlayhints',
+      callback = function(args)
+        if not (args.data and args.data.client_id) then
+          return
+        end
+
+        local bufnr = args.buf
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        require('lsp-inlayhints').on_attach(client, bufnr)
+      end,
+    })
   end
 }
 
@@ -221,7 +228,7 @@ local lspupdate = {
 local lightbulb = {
   'kosayoda/nvim-lightbulb',
   config = function()
-    require("nvim-lightbulb").setup({
+    require('nvim-lightbulb').setup({
       autocmd = { enabled = true },
     })
   end
@@ -239,7 +246,7 @@ local actions_preview = {
         layout_config = {
           width = 0.8,
           height = 0.9,
-          prompt_position = "top",
+          prompt_position = 'top',
           preview_cutoff = 20,
           preview_height = function(_, _, max_lines)
             return max_lines - 15
@@ -263,15 +270,29 @@ local lsplines = {
     })
     ]]--
 
-    vim.keymap.set('', "<leader>l", lsp_lines.toggle, { desc = "Toggle lsp_lines" })
+    vim.keymap.set('', '<leader>l', lsp_lines.toggle, { desc = 'Toggle lsp_lines' })
   end
 }
 
+-- This is only necessary until nvim 0.10
 local inlayhints = {
   'lvimuser/lsp-inlayhints.nvim',
   config = function()
     require('lsp-inlayhints').setup()
   end
+}
+
+local barbecue = {
+  'utilyre/barbecue.nvim',
+  name = 'barbecue',
+  version = '*',
+  dependencies = {
+    'SmiteshP/nvim-navic',
+    'nvim-tree/nvim-web-devicons', -- optional dependency
+  },
+  opts = {
+    -- configurations go here
+  },
 }
 
 return {
@@ -280,4 +301,6 @@ return {
   -- lightbulb,
   actions_preview,
   -- lsplines,
+  inlayhints,
+  -- barbecue,
 }
