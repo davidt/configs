@@ -2,7 +2,12 @@
 local lspconfig = {
   'neovim/nvim-lspconfig',
   main = 'lspconfig',
+  dependencies = {
+    'yioneko/nvim-vtsls',
+  },
   config = function()
+    require('lspconfig.configs').vstls = require('vtsls').lspconfig
+
     local lspconfig = require('lspconfig')
     local cmp_nvim_lsp = require('cmp_nvim_lsp')
     local capabilities = vim.tbl_deep_extend(
@@ -52,6 +57,7 @@ local lspconfig = {
                 'LOG',
                 'PIE',
                 'PL',
+                'TCH',
                 'UP',
               },
               extendIgnore = {
@@ -59,6 +65,7 @@ local lspconfig = {
                 'ANN003',
                 'ANN101',
                 'ANN102',
+                'ANN401',
                 'COM819',
                 'D200',
                 'D205',
@@ -72,6 +79,7 @@ local lspconfig = {
                 'UP007', -- Use X|Y for type annotations - soon?
                 'UP012', -- Unnecessary "utf-8" argument for encode
                 'PLR09', -- Pylint "too many ..."
+                'PLW2901', -- Pylint "for loop variable ... overwritten by assignment"
               },
               severities = {
                 ['ANN'] = 'I',
@@ -113,6 +121,8 @@ local lspconfig = {
       capabilities = pyright_caps,
     }
 
+    -- Disabled in favor of typescript-tools
+    --[[
     lspconfig.tsserver.setup({
       capabilities = capabilities,
       init_options = {
@@ -128,6 +138,23 @@ local lspconfig = {
         },
       },
     })
+    ]]--
+
+    lspconfig.vtsls.setup({
+      settings = {
+        typescript = {
+          inlayHints = {
+            parameterNames = { enabled = "literals" },
+            parameterTypes = { enabled = true },
+            variableTypes = { enabled = true },
+            propertyDeclarationTypes = { enabled = true },
+            functionLikeReturnTypes = { enabled = true },
+            enumMemberValues = { enabled = true },
+          }
+        }
+      }
+    })
+
     lspconfig.typos_lsp.setup({
       cmd = { '/Users/david/.config/nvim/lsp/bin/typos-lsp' },
       capabilities = capabilities,
@@ -205,21 +232,43 @@ local lspconfig = {
     vim.api.nvim_set_keymap('n', 'gD', '<cmd>:vsplit | lua vim.lsp.buf.declaration()<CR>', { noremap = true, silent = true })
     vim.api.nvim_set_keymap('n', 'gh', '<cmd>:vsplit | lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
 
-    vim.api.nvim_create_augroup('LspAttach_inlayhints', {})
-    vim.api.nvim_create_autocmd('LspAttach', {
-      group = 'LspAttach_inlayhints',
-      callback = function(args)
-        if not (args.data and args.data.client_id) then
-          return
-        end
-
-        local bufnr = args.buf
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        require('lsp-inlayhints').on_attach(client, bufnr)
-      end,
-    })
+    vim.lsp.inlay_hint.enable()
+    vim.keymap.set(
+      'n', '<leader>ih',
+      function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+      end
+    )
   end
 }
+
+-- Prefer this to tsserver, since it's a lot faster.
+--[[
+local ts_tools = {
+  'pmizio/typescript-tools.nvim',
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'neovim/nvim-lspconfig'
+  },
+  config = function()
+    require('typescript-tools').setup({
+      settings = {
+        tsserver_file_preferences = {
+          includeInlayParameterNameHints = 'all',
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+          importModuleSpecifierPreference = 'non-relative',
+          quotePreference = 'single',
+        },
+      },
+    })
+  end,
+}
+]]--
 
 local lspupdate = {
   'alexaandru/nvim-lspupdate',
@@ -274,14 +323,6 @@ local lsplines = {
   end
 }
 
--- This is only necessary until nvim 0.10
-local inlayhints = {
-  'lvimuser/lsp-inlayhints.nvim',
-  config = function()
-    require('lsp-inlayhints').setup()
-  end
-}
-
 local barbecue = {
   'utilyre/barbecue.nvim',
   name = 'barbecue',
@@ -295,12 +336,24 @@ local barbecue = {
   },
 }
 
+local lspsaga = {
+  'nvimdev/lspsaga.nvim',
+  config = function()
+    require('lspsaga').setup({})
+  end,
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter',
+    'nvim-tree/nvim-web-devicons',
+  }
+}
+
 return {
   lspconfig,
+  -- ts_tools,
   lspupdate,
+  -- lspsaga,
   -- lightbulb,
   actions_preview,
   -- lsplines,
-  inlayhints,
   -- barbecue,
 }
